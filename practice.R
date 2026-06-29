@@ -1,0 +1,26 @@
+pdf<-function(x,alpha,lambda){
+  pdf=((1+alpha)/alpha)*lambda*exp(-lambda*x)*(1-exp(-lambda*alpha*x))
+  pdf
+}
+expec<-function(alpha,lambda,r){
+  int<-function(x){
+    val<-(x^r)*pdf(x,alpha,lambda)
+    val
+  }
+  expec=integrate(int,0,Inf)$value
+  expec
+}
+alpha<-2
+lambda<-2
+mean_val<-expec(alpha,lambda,1)
+mean_val
+variance<-expec(alpha,lambda,2)-mean_val^2
+variance
+std_dev<-sqrt(variance)
+std_dev
+x<-seq(0,5,0.001)
+plot(x,pdf(x,2,2),
+     type="l",xlab="x",ylab="f(x)",
+     main="Density function for different parameters")
+lines(x,pdf(x,0.5,3))
+legend("topright",legend=c("alpha=2,lambda2","alpha=0.5,lamda=3"),lty=1)
